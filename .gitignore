@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+.venv/
+
+# Environment Variables
+.env
+
+# Logs
+aoc_mcp.log
+
+# OS
+.DS_Store 

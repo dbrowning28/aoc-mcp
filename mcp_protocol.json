@@ -1,0 +1,109 @@
+{
+    "protocol": "model-context-protocol",
+    "version": "1.0.0",
+    "service": "advent-of-code",
+    "description": "Advent of Code puzzle fetching service for Cursor projects",
+    "tools": [
+        {
+            "name": "get_puzzle",
+            "description": "Get puzzle description and input for a specific Advent of Code day.\n\nArgs:\n    year: Year of the puzzle (2015-2024)\n    day: Day of the puzzle (1-25)\n",
+            "parameters": {
+                "type": "object",
+                "required": ["year", "day"],
+                "properties": {
+                    "year": {
+                        "type": "integer",
+                        "description": "Year of the puzzle (2015-2024)",
+                        "minimum": 2015,
+                        "maximum": 2024
+                    },
+                    "day": {
+                        "type": "integer",
+                        "description": "Day of the puzzle (1-25)",
+                        "minimum": 1,
+                        "maximum": 25
+                    }
+                }
+            },
+            "returns": {
+                "type": "object",
+                "properties": {
+                    "year": {
+                        "type": "integer",
+                        "description": "Year of the puzzle"
+                    },
+                    "day": {
+                        "type": "integer",
+                        "description": "Day of the puzzle"
+                    },
+                    "parts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "Puzzle part description text"
+                        },
+                        "description": "Array of puzzle part descriptions"
+                    },
+                    "input": {
+                        "type": "string",
+                        "description": "Puzzle input data"
+                    }
+                }
+            },
+            "errors": [
+                {
+                    "type": "ValueError",
+                    "description": "Invalid year or day parameters"
+                },
+                {
+                    "type": "ValueError",
+                    "description": "Invalid session cookie"
+                },
+                {
+                    "type": "ValueError",
+                    "description": "Puzzle not found or not yet available"
+                },
+                {
+                    "type": "ValueError",
+                    "description": "Network error while fetching content"
+                }
+            ]
+        }
+    ],
+    "authentication": {
+        "type": "environment",
+        "required": ["AOC_SESSION_COOKIE"],
+        "description": "Requires Advent of Code session cookie for authentication"
+    },
+    "usage": {
+        "examples": [
+            {
+                "description": "Fetch puzzle for day 1 of 2023",
+                "code": "result = await mcp.invoke('get_puzzle', {'year': 2023, 'day': 1})"
+            }
+        ]
+    },
+    "cursor": {
+        "activation": {
+            "events": [
+                {
+                    "type": "filePattern",
+                    "pattern": "*.aoc.py"
+                },
+                {
+                    "type": "command",
+                    "name": "adventofcode.fetch"
+                }
+            ]
+        },
+        "suggestions": {
+            "patterns": [
+                {
+                    "pattern": "# @aoc-input {year} {day}",
+                    "action": "get_puzzle",
+                    "insertFormat": "input = \"\"\"${result.input}\"\"\""
+                }
+            ]
+        }
+    }
+} 
