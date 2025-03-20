@@ -35,12 +35,14 @@ uv pip sync
    - Open Cursor's settings
    - Add the following MCP configuration, replacing the placeholders:
    ```bash
-   uv --directory /path/to/aoc-mcp/aoc_mcp --session-cookie "your_session_cookie_here" run server.py
+   uv --directory /path/to/aoc-mcp/aoc_mcp run server.py -- --session-cookie "your_session_cookie_here"
    ```
    For example, if you cloned the repo to `/home/user/aoc-mcp`, your command would be:
    ```bash
-   uv --directory /home/user/aoc-mcp/aoc_mcp --session-cookie "abcd1234..." run server.py
+   uv --directory /home/user/aoc-mcp/aoc_mcp run server.py -- --session-cookie "abcd1234..."
    ```
+
+   Note: The `--` is important! It separates uv's arguments from the arguments passed to the Python script.
 
 You can also optionally create a `.env` file in the root directory with your session cookie for local development:
 ```bash
