@@ -1,14 +1,23 @@
 from typing import Any
 import signal
+import argparse
 from bs4 import BeautifulSoup
 from mcp.server.fastmcp import FastMCP
-from .utils import get_session_cookie, fetch_aoc_content, handle_interrupt, logger, BASE_URL
+from aoc_mcp.utils import get_session_cookie, fetch_aoc_content, handle_interrupt, logger, BASE_URL
 
 # Initialize MCP server
 mcp = FastMCP("advent-of-code")
 
+def parse_args():
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(description='Run the Advent of Code MCP server')
+    parser.add_argument('--session-cookie', 
+                       help='Advent of Code session cookie. If not provided, will check AOC_SESSION_COOKIE environment variable.')
+    return parser.parse_args()
+
 # Get configuration
-AOC_SESSION_COOKIE = get_session_cookie()
+args = parse_args()
+AOC_SESSION_COOKIE = get_session_cookie(args.session_cookie)
 
 @mcp.tool()
 async def get_puzzle(year: int, day: int) -> dict[str, Any]:

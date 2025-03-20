@@ -1,6 +1,5 @@
 import os
 import logging
-import argparse
 from dotenv import load_dotenv
 import aiohttp
 from bs4 import BeautifulSoup
@@ -18,17 +17,16 @@ logger = logging.getLogger(__name__)
 
 BASE_URL = "https://adventofcode.com"
 
-def get_session_cookie():
-    """Get the AOC session cookie from command line args or environment"""
-    parser = argparse.ArgumentParser(description='Run the Advent of Code MCP server')
-    parser.add_argument('--session-cookie', 
-                       help='Advent of Code session cookie. If not provided, will check AOC_SESSION_COOKIE environment variable.')
-    args = parser.parse_args()
+def get_session_cookie(session_cookie: str = None):
+    """Get the AOC session cookie from parameter or environment
     
-    # First try command line argument
-    if args.session_cookie:
-        logger.info("Using session cookie from command line argument")
-        return args.session_cookie
+    Args:
+        session_cookie: Optional session cookie value to use directly
+    """
+    # First try provided parameter
+    if session_cookie:
+        logger.info("Using provided session cookie")
+        return session_cookie
     
     # Then try environment variables
     load_dotenv()
@@ -39,7 +37,7 @@ def get_session_cookie():
         logger.info("Using session cookie from environment variable")
         return env_cookie
     
-    logger.error("No session cookie provided. Please provide it via --session-cookie argument or AOC_SESSION_COOKIE environment variable")
+    logger.error("No session cookie provided. Please provide it via parameter or AOC_SESSION_COOKIE environment variable")
     raise ValueError("Session cookie not found")
 
 async def fetch_aoc_content(url: str, session_cookie: str) -> str:
