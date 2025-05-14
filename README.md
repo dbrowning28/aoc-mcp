@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/dbrowning28-aoc-mcp-badge.png)](https://mseep.ai/app/dbrowning28-aoc-mcp)
+
 # Advent of Code MCP
 
 A Mission Control Protocol (MCP) tool for fetching Advent of Code puzzle content and inputs. This tool can be integrated into any MCP-compatible environment (like Cursor) to fetch puzzle descriptions and inputs directly from Advent of Code.
